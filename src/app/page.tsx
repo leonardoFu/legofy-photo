@@ -64,7 +64,7 @@ export default function Home() {
     
     const link = document.createElement("a");
     link.href = legoImage;
-    link.download = `brickified-image-${new Date().getTime()}.png`;
+    link.download = `legofied-image-${new Date().getTime()}.png`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -142,7 +142,7 @@ export default function Home() {
                     onClick={handleReset}
                     className="text-sm"
                   >
-                    {legoImage ? "Brickify another image" : "Choose Different Image"}
+                    {legoImage ? "Legofy another image" : "Choose Different Image"}
                   </Button>
                 </div>
               )}
@@ -232,7 +232,7 @@ export default function Home() {
                             disabled={loading || !image}
                             className="w-full bg-blue-600 hover:bg-blue-700 text-white"
                           >
-                            {loading ? "Brickifying..." : "Brickify!"}
+                            {loading ? "Legofying..." : "Legofy!"}
                           </Button>
                         </div>
                         
@@ -252,7 +252,7 @@ export default function Home() {
               
               {showSuccess && (
                 <div className="fixed top-0 left-1/2 transform -translate-x-1/2 mt-4 text-center bg-green-100 text-green-800 p-2 px-4 rounded-md border border-green-200 shadow-md animate-in fade-in slide-in-from-top duration-500 z-50">
-                  Successfully brickified your image!
+                  Successfully legofied your image!
                 </div>
               )}
               
