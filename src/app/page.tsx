@@ -2,13 +2,11 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import Container from "@/components/ui/Container";
-import { FileUpload } from "@/components/ui/file-upload";
-import { Download, ZoomIn, ZoomOut, Layers, Github } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
-import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Download, ZoomIn, ZoomOut, Github, Upload, RefreshCw } from "lucide-react";
 import { LegoBrickPreview } from "@/components/LegoBrickPreview";
-import { Separator } from "@/components/ui/separator";
 
 export default function Home() {
   const [image, setImage] = useState<File | null>(null);
@@ -102,182 +100,279 @@ export default function Home() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <header className="border-b border-border dark:border-neutral-800 py-4">
-        <Container>
-          <div className="flex justify-between items-center">
-            <h1 className="text-xl font-bold">Legofy Photo</h1>
-            <a 
-              href="https://github.com/leonardoFu/legofy-photo" 
-              target="_blank" 
+    <div className="min-h-screen bg-gradient-to-b from-yellow-400 to-yellow-500">
+      {/* Header */}
+      <header className="sticky top-0 z-10 bg-red-600 shadow-lg">
+        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+          <div className="flex items-center gap-2">
+            <div className="grid grid-cols-2 gap-0.5">
+              <div className="w-4 h-4 rounded-full bg-yellow-400"></div>
+              <div className="w-4 h-4 rounded-full bg-blue-500"></div>
+              <div className="w-4 h-4 rounded-full bg-green-500"></div>
+              <div className="w-4 h-4 rounded-full bg-red-400"></div>
+            </div>
+            <h1 className="text-2xl font-extrabold text-white tracking-tight">Legofy Photo</h1>
+          </div>
+          <div className="flex items-center gap-4">
+            <a
+              href="https://github.com/leonardoFu/legofy-photo"
+              target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-600 hover:text-gray-900"
+              className="text-white hover:text-yellow-300 transition-colors"
             >
               <Github className="h-6 w-6" />
             </a>
           </div>
-        </Container>
+        </div>
       </header>
 
-      <main className="flex-grow">
-        <Container>
-          <div className="flex flex-col items-center gap-12 py-12">
-            <p className="text-xl text-center max-w-2xl">
-              Transform your photos into LEGO-style artwork.
-            </p>
-            
-            <div className="w-full max-w-md">
-              {!imagePreview ? (
-                <div className="mb-6">
-                  <FileUpload 
-                    onFileSelect={handleFileSelect}
-                    accept="image/*"
-                    maxSize={10 * 1024 * 1024} // 10MB
-                  />
-                </div>
-              ) : (
-                <div className="flex justify-center mb-6">
-                  <Button 
-                    variant="outline" 
-                    onClick={handleReset}
-                    className="text-sm"
-                  >
-                    {legoImage ? "Legofy another image" : "Choose Different Image"}
-                  </Button>
-                </div>
-              )}
-              
-              {imagePreview && !legoImage && (
-                <div className="flex flex-col my-6 gap-6">
-                  <div className="flex justify-center">
-                    <Image
-                      src={imagePreview}
-                      alt="Selected preview"
-                      className="rounded shadow-lg border object-contain max-w-full"
-                      width={300}
-                      height={200}
-                      style={{ width: 'auto', height: 'auto', maxHeight: '200px' }}
-                    />
-                  </div>
-                  
-                  {imageStats && (
-                    <div className="text-sm text-gray-600 space-y-4 w-full">
-                      <div className="flex justify-between items-center px-1">
-                        <div>
-                          <p className="font-medium">Image Stats</p>
-                          <p className="text-gray-500">{imageStats.width} × {imageStats.height} px · {(imageStats.width / imageStats.height).toFixed(2)} ratio</p>
-                        </div>
-                        <div className="flex items-center gap-1 text-gray-500">
-                          <Layers className="h-4 w-4" />
-                          <span className="text-sm">
-                            {brickSize}×{Math.round(brickSize / (imageStats.width / imageStats.height))}px bricks
-                          </span>
-                        </div>
-                      </div>
-                      
-                      <Separator />
-                      
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
-                        <div className="space-y-4">
-                          <div className="space-y-2">
-                            <div className="flex items-center justify-between">
-                              <Label htmlFor="brick-size">Brick Width: {brickSize}px</Label>
-                              <div className="flex gap-1">
-                                <Button
-                                  variant="outline" 
-                                  size="icon"
-                                  onClick={() => setBrickSize(Math.max(10, brickSize - 5))}
-                                  className="h-7 w-7"
-                                >
-                                  <ZoomOut className="h-3.5 w-3.5" />
-                                </Button>
-                                <Button
-                                  variant="outline"
-                                  size="icon"
-                                  onClick={() => setBrickSize(Math.min(50, brickSize + 5))}
-                                  className="h-7 w-7"
-                                >
-                                  <ZoomIn className="h-3.5 w-3.5" />
-                                </Button>
-                              </div>
-                            </div>
-                            <Slider
-                              id="brick-size"
-                              min={10}
-                              max={50}
-                              step={1}
-                              value={[brickSize]}
-                              onValueChange={(values) => setBrickSize(values[0])}
+      {/* Main Content */}
+      <main className="container mx-auto px-4 py-8">
+        {/* Hero Section */}
+        <div className="mb-12 text-center">
+          <h2 className="text-4xl font-bold mb-4 text-blue-700">Transform Your Photos Into LEGO Brick Art!</h2>
+          <p className="text-xl text-gray-800 max-w-2xl mx-auto">
+            Upload any image and watch it transform into a colorful LEGO brick masterpiece. Adjust the brick size to
+            create your perfect pixelated creation!
+          </p>
+        </div>
+
+        {/* Main App Interface */}
+        <div className="bg-white rounded-xl shadow-2xl overflow-hidden border-4 border-blue-600">
+          {/* Tabs */}
+          <Tabs defaultValue="transform" className="w-full">
+            <div className="bg-blue-600 px-0 py-0">
+              <TabsList className="grid grid-cols-2 bg-transparent w-full p-0 h-auto">
+                <TabsTrigger
+                  value="transform"
+                  className="text-lg font-medium bg-yellow-400 text-blue-900 rounded-t-lg rounded-b-none border-0 h-12 data-[state=active]:bg-yellow-400 data-[state=active]:text-blue-900"
+                >
+                  Transform
+                </TabsTrigger>
+                <TabsTrigger
+                  value="gallery"
+                  className="text-lg font-medium bg-blue-700 text-white rounded-t-lg rounded-b-none border-0 h-12 data-[state=active]:bg-yellow-400 data-[state=active]:text-blue-900 opacity-60"
+                  disabled
+                >
+                  Gallery
+                </TabsTrigger>
+              </TabsList>
+            </div>
+
+            <TabsContent value="transform" className="p-6">
+              <div className="grid md:grid-cols-2 gap-8">
+                {/* Left Column - Original Image */}
+                <div className="space-y-4">
+                  <div className="bg-gray-100 p-4 rounded-lg border-2 border-dashed border-gray-300 flex flex-col items-center justify-center">
+                    <div className="relative w-full aspect-square mb-4 overflow-hidden rounded-lg shadow-md">
+                      {!imagePreview ? (
+                        <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                          <label htmlFor="file-upload" className="cursor-pointer bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded flex items-center">
+                            <Upload className="mr-2 h-4 w-4" /> Upload Image
+                            <input
+                              id="file-upload"
+                              type="file"
+                              className="hidden"
+                              accept="image/*"
+                              onChange={(e) => {
+                                const file = e.target.files?.[0];
+                                if (file) handleFileSelect(file);
+                              }}
                             />
-                            <p className="text-xs text-gray-500">
-                              Smaller value = more detail, larger final image
-                            </p>
-                            
-                            {imageStats && (
-                              <div className="mt-2 text-xs text-gray-500 bg-gray-50 rounded p-2 border">
-                                <div className="flex justify-between">
-                                  <span>Brick Width:</span>
-                                  <span className="font-medium">{brickSize}px</span>
-                                </div>
-                                <div className="flex justify-between">
-                                  <span>Brick Height:</span>
-                                  <span className="font-medium">{Math.round(brickSize / (imageStats.width / imageStats.height))}px</span>
-                                </div>
-                              </div>
-                            )}
-                          </div>
-                          
-                          <Button
-                            onClick={handleUpload}
-                            disabled={loading || !image}
-                            className="w-full bg-blue-600 hover:bg-blue-700 text-white"
-                          >
-                            {loading ? "Legofying..." : "Legofy!"}
-                          </Button>
+                          </label>
                         </div>
-                        
-                        <div className="flex justify-center">
-                          <LegoBrickPreview 
-                            brickWidth={brickSize}
-                            brickHeight={imageStats ? Math.round(brickSize / (imageStats.width / imageStats.height)) : brickSize}
-                          />
-                        </div>
+                      ) : (
+                        <Image
+                          src={imagePreview}
+                          alt="Original image"
+                          fill
+                          className="object-contain"
+                        />
+                      )}
+                    </div>
+                    {imagePreview && (
+                      <div className="w-full">
+                        <Button 
+                          className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+                          onClick={handleReset}
+                        >
+                          <Upload className="mr-2 h-4 w-4" /> Choose Different Image
+                        </Button>
+                      </div>
+                    )}
+                  </div>
+
+                  {imageStats && (
+                    <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                      <h3 className="font-bold text-gray-700 mb-2">Image Stats</h3>
+                      <div className="grid grid-cols-2 gap-2 text-sm">
+                        <div className="text-gray-600">Dimensions:</div>
+                        <div>{imageStats.width} × {imageStats.height} px</div>
+                        <div className="text-gray-600">Ratio:</div>
+                        <div>{(imageStats.width / imageStats.height).toFixed(2)}</div>
                       </div>
                     </div>
                   )}
                 </div>
-              )}
-              
-              {error && <div className="text-red-600 mt-4 text-center">{error}</div>}
-              
-              {showSuccess && (
-                <div className="fixed top-0 left-1/2 transform -translate-x-1/2 mt-4 text-center bg-green-100 text-green-800 p-2 px-4 rounded-md border border-green-200 shadow-md animate-in fade-in slide-in-from-top duration-500 z-50">
-                  Successfully legofied your image!
+
+                {/* Right Column - Legofied Image & Controls */}
+                <div className="space-y-4">
+                  <div className="bg-gray-100 p-4 rounded-lg border-2 border-gray-300 flex flex-col">
+                    <div className="relative w-full aspect-square mb-4 overflow-hidden rounded-lg shadow-md bg-gray-200">
+                      {legoImage ? (
+                        <Image
+                          src={legoImage}
+                          alt="Legofied image"
+                          fill
+                          className="object-cover"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center">
+                          {loading ? (
+                            <div className="flex flex-col items-center text-gray-400">
+                              <RefreshCw className="h-10 w-10 animate-spin mb-2" />
+                              <p>Processing...</p>
+                            </div>
+                          ) : imageStats ? (
+                            <div className="flex flex-col items-center justify-center w-full h-full">
+                              <LegoBrickPreview 
+                                brickWidth={brickSize}
+                                brickHeight={Math.round(brickSize / (imageStats.width / imageStats.height))}
+                              />
+                            </div>
+                          ) : (
+                            <p className="text-gray-400">Legofied image will appear here</p>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                    {legoImage && (
+                      <div className="flex justify-end space-x-2">
+                        <Button 
+                          className="bg-green-600 hover:bg-green-700 text-white"
+                          onClick={handleDownload}
+                        >
+                          <Download className="mr-2 h-4 w-4" /> Download
+                        </Button>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Controls */}
+                  <div className="bg-yellow-100 p-6 rounded-lg border-2 border-yellow-300 shadow-inner">
+                    <h3 className="font-bold text-xl mb-4 text-gray-800 flex items-center">
+                      <div className="w-4 h-4 bg-red-500 rounded-sm mr-2"></div>
+                      Brick Settings
+                    </h3>
+
+                    <div className="space-y-6">
+                      <div className="space-y-2">
+                        <div className="flex justify-between">
+                          <label className="font-medium text-gray-700">Brick Width: {brickSize}px</label>
+                          <span className="text-sm text-gray-500">
+                            {brickSize < 20 ? "Low Detail" : brickSize > 40 ? "High Detail" : "Medium Detail"}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-4">
+                          <ZoomIn className="h-4 w-4 text-gray-500" />
+                          <Slider
+                            value={[brickSize]}
+                            min={10}
+                            max={50}
+                            step={1}
+                            onValueChange={(values) => setBrickSize(values[0])}
+                            className="flex-1"
+                          />
+                          <ZoomOut className="h-4 w-4 text-gray-500" />
+                        </div>
+                      </div>
+
+                      {imageStats && (
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                            <label className="text-sm font-medium text-gray-700 block mb-1">Brick Width:</label>
+                            <Input
+                              type="number"
+                              value={brickSize}
+                              onChange={(e) => setBrickSize(Number(e.target.value))}
+                              className="w-full"
+                            />
+                          </div>
+                          <div>
+                            <label className="text-sm font-medium text-gray-700 block mb-1">Brick Height:</label>
+                            <Input
+                              type="number"
+                              value={Math.round(brickSize / (imageStats.width / imageStats.height))}
+                              readOnly
+                              className="w-full"
+                            />
+                          </div>
+                        </div>
+                      )}
+
+                      <Button
+                        className="w-full bg-red-600 hover:bg-red-700 text-white text-lg py-6 font-bold"
+                        onClick={handleUpload}
+                        disabled={loading || !image}
+                      >
+                        {loading ? (
+                          <>
+                            <RefreshCw className="mr-2 h-5 w-5 animate-spin" /> Legofying...
+                          </>
+                        ) : (
+                          'Legofy!'
+                        )}
+                      </Button>
+                    </div>
+                  </div>
                 </div>
-              )}
-              
-              {legoImage && (
-                <div className="flex flex-col items-center mt-8 gap-4">
-                  <Image
-                    src={legoImage}
-                    alt="Lego-fied"
-                    className="max-w-xs max-h-96 rounded shadow-lg border"
-                    width={400}
-                    height={300}
-                  />
-                  <Button 
-                    onClick={handleDownload}
-                    className="mt-2 bg-green-600 hover:bg-green-700"
-                  >
-                    <Download className="mr-2 h-4 w-4" />
-                    Download PNG
-                  </Button>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="gallery" className="p-6">
+              <div className="text-center py-12">
+                <h3 className="text-2xl font-bold text-gray-700 mb-4">Your Legofied Creations</h3>
+                <p className="text-gray-500">Gallery coming soon!</p>
+              </div>
+            </TabsContent>
+          </Tabs>
+        </div>
+      </main>
+
+      {/* Footer */}
+      <footer className="bg-blue-700 text-white py-6 mt-12">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <div className="mb-4 md:mb-0">
+              <div className="flex items-center gap-2">
+                <div className="grid grid-cols-2 gap-0.5">
+                  <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
+                  <div className="w-3 h-3 rounded-full bg-red-400"></div>
+                  <div className="w-3 h-3 rounded-full bg-green-400"></div>
+                  <div className="w-3 h-3 rounded-full bg-blue-400"></div>
                 </div>
-              )}
+                <span className="font-bold">Legofy Photo</span>
+              </div>
+              <p className="text-sm mt-1 text-blue-200">Transform your photos into LEGO-style artwork</p>
+            </div>
+            <div>
+              <p className="text-sm text-blue-200">© {new Date().getFullYear()} Legofy Photo. All rights reserved.</p>
             </div>
           </div>
-        </Container>
-      </main>
+        </div>
+      </footer>
+
+      {showSuccess && (
+        <div className="fixed top-0 left-1/2 transform -translate-x-1/2 mt-4 text-center bg-green-100 text-green-800 p-2 px-4 rounded-md border border-green-200 shadow-md animate-in fade-in slide-in-from-top duration-500 z-50">
+          Successfully legofied your image!
+        </div>
+      )}
+
+      {error && (
+        <div className="fixed top-0 left-1/2 transform -translate-x-1/2 mt-4 text-center bg-red-100 text-red-800 p-2 px-4 rounded-md border border-red-200 shadow-md animate-in fade-in slide-in-from-top duration-500 z-50">
+          {error}
+        </div>
+      )}
     </div>
   );
 }

@@ -19,9 +19,8 @@ export function LegoBrickPreview({
   // Generate semi-random but visually appealing pattern
   const brickColors = useMemo(() => {
     const colors = [
-      'bg-red-300', 'bg-blue-300', 'bg-green-300', 
-      'bg-yellow-200', 'bg-purple-300', 'bg-pink-300',
-      'bg-orange-200', 'bg-teal-300', 'bg-cyan-300'
+      'bg-amber-200', 'bg-blue-300', 'bg-green-300', 
+      'bg-yellow-200', 'bg-purple-300', 'bg-pink-300'
     ];
     
     const pattern = [];
@@ -54,12 +53,8 @@ export function LegoBrickPreview({
       ref={containerRef}
       className={cn("w-full", className)}
     >
-      <div className="mt-2 mb-1 text-xs text-gray-500 text-center">
-        Preview: {brickWidth}×{brickHeight} bricks
-      </div>
-      
       <div 
-        className="w-full max-w-[240px] mx-auto border border-gray-300 rounded shadow-sm overflow-hidden bg-gray-100"
+        className="w-full mx-auto border border-gray-300 rounded shadow-sm overflow-hidden bg-gray-100"
         style={{
           // Overall container aspect ratio matches the grid dimensions
           aspectRatio: (brickWidth / brickHeight).toString(),
@@ -88,16 +83,11 @@ export function LegoBrickPreview({
                   gridColumn: `${col + 1} / span 1`,
                 }}
               >
-                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-1/3 h-1/3 rounded-full bg-white/40"></div>
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-2/3 h-2/3 rounded-full bg-white/40"></div>
               </div>
             );
           })
         }
-      </div>
-      <div className="mt-2 text-xs italic text-gray-400 text-center">
-        Brick size: {brickWidth}×{brickHeight}px
-        {" • "}
-        {brickWidth <= 20 ? "High detail" : brickWidth >= 40 ? "Low detail" : "Medium detail"}
       </div>
     </div>
   );
