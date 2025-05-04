@@ -141,17 +141,17 @@ export default function Home() {
         <div className="bg-white rounded-xl shadow-2xl overflow-hidden border-4 border-blue-600">
           {/* Tabs */}
           <Tabs defaultValue="transform" className="w-full">
-            <div className="bg-blue-600 px-6 py-3">
-              <TabsList className="grid grid-cols-2 bg-blue-700">
+            <div className="bg-blue-600 px-0 py-0">
+              <TabsList className="grid grid-cols-2 bg-transparent w-full p-0 h-auto">
                 <TabsTrigger
                   value="transform"
-                  className="text-lg font-medium data-[state=active]:bg-yellow-400 data-[state=active]:text-blue-900"
+                  className="text-lg font-medium bg-yellow-400 text-blue-900 rounded-t-lg rounded-b-none border-0 h-12 data-[state=active]:bg-yellow-400 data-[state=active]:text-blue-900"
                 >
                   Transform
                 </TabsTrigger>
                 <TabsTrigger
                   value="gallery"
-                  className="text-lg font-medium data-[state=active]:bg-yellow-400 data-[state=active]:text-blue-900"
+                  className="text-lg font-medium bg-blue-700 text-white rounded-t-lg rounded-b-none border-0 h-12 data-[state=active]:bg-yellow-400 data-[state=active]:text-blue-900 opacity-60"
                   disabled
                 >
                   Gallery
