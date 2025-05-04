@@ -54,12 +54,8 @@ export function LegoBrickPreview({
       ref={containerRef}
       className={cn("w-full", className)}
     >
-      <div className="mt-2 mb-1 text-xs text-gray-500 text-center">
-        Preview: {brickWidth}×{brickHeight} bricks
-      </div>
-      
       <div 
-        className="w-full max-w-[240px] mx-auto border border-gray-300 rounded shadow-sm overflow-hidden bg-gray-100"
+        className="w-full mx-auto border border-gray-300 rounded shadow-sm overflow-hidden bg-gray-100"
         style={{
           // Overall container aspect ratio matches the grid dimensions
           aspectRatio: (brickWidth / brickHeight).toString(),
@@ -93,11 +89,6 @@ export function LegoBrickPreview({
             );
           })
         }
-      </div>
-      <div className="mt-2 text-xs italic text-gray-400 text-center">
-        Brick size: {brickWidth}×{brickHeight}px
-        {" • "}
-        {brickWidth <= 20 ? "High detail" : brickWidth >= 40 ? "Low detail" : "Medium detail"}
       </div>
     </div>
   );
