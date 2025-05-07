@@ -5,28 +5,53 @@
 [![Vercel](https://img.shields.io/badge/Vercel-Deployed-black?logo=vercel)](https://legofy-photo.vercel.app/)
 [![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 
-Transform your photos into LEGO brick art! Upload any image and watch it transform into a colorful LEGO brick masterpiece. Adjust the brick size to create your perfect pixelated creation!
+Transform your photos into LEGO-style brick art using client-side image processing.
 
-Demo: [https://legofy-photo.vercel.app/](https://legofy-photo.vercel.app/)
+## Features
 
-This project is highly inspired by [JuanPotato/Legofy](https://github.com/JuanPotato/Legofy).
+- **Client-side Image Processing**: All image processing happens in your browser without sending data to a server
+- **Custom Brick Size**: Adjust the brick size to create different levels of detail
+- **Download Your Creation**: Easily download your LEGO-fied images
+- **Mobile-Friendly**: Works on desktop and mobile devices
 
-## Getting Started
+## How It Works
 
-First, run the development server:
+This application uses browser-based Canvas API to transform your photos into LEGO-style brick art:
+
+1. You upload an image
+2. The app downsizes it to a smaller grid based on your selected brick size
+3. Each "pixel" in that grid is replaced with a LEGO brick
+4. Colors are matched to the official LEGO color palette
+
+All processing happens entirely in your browser - your images are never uploaded to a server.
+
+## Technical Implementation
+
+The app is built with:
+
+- **Next.js** and **React** for the UI framework
+- **TypeScript** for type safety
+- **Shadcn UI** and **Tailwind CSS** for styling
+- **HTML5 Canvas API** for client-side image manipulation
+
+### Recent Refactoring
+
+We recently refactored the application to process images entirely client-side instead of on the server:
+
+- Created a separate `legofy.ts` library with self-contained image processing functions
+- Implemented browser-compatible canvas operations to match the original server-side functionality
+- Improved performance by moving processing to the client's device
+
+## Development
 
 ```bash
+# Install dependencies
+npm install
+
+# Run the development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## License
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+MIT

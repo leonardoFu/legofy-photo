@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
@@ -7,26 +7,29 @@ import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Download, ZoomIn, ZoomOut, Github, Upload, RefreshCw } from "lucide-react";
 import { LegoBrickPreview } from "@/components/LegoBrickPreview";
+import { legofyImage, type LegoResult } from "@/lib/legofy";
+import { type LegoPaletteName } from "@/lib/legoPalette";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { toast } from "sonner";
+
+// Helper function to convert RGB to hexadecimal
+function rgbToHex(rgb: number[] | [number, number, number]): string {
+  const [r, g, b] = rgb;
+  return "#" + 
+    ((1 << 24) + (r << 16) + (g << 8) + b)
+      .toString(16)
+      .slice(1);
+}
 
 export default function Home() {
   const [image, setImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [legoImage, setLegoImage] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [showSuccess, setShowSuccess] = useState(false);
   const [imageStats, setImageStats] = useState<{ width: number; height: number } | null>(null);
   const [brickSize, setBrickSize] = useState(30); // Default value from the API
-
-  useEffect(() => {
-    let timeout: NodeJS.Timeout;
-    if (showSuccess) {
-      timeout = setTimeout(() => {
-        setShowSuccess(false);
-      }, 3000);
-    }
-    return () => clearTimeout(timeout);
-  }, [showSuccess]);
+  const [paletteName, setPaletteName] = useState<LegoPaletteName>('solid');
+  const [legoStats, setLegoStats] = useState<LegoResult['stats'] | null>(null);
 
   function handleFileSelect(file: File) {
     setImage(file);
@@ -52,9 +55,8 @@ export default function Home() {
     setImage(null);
     setImagePreview(null);
     setLegoImage(null);
-    setError(null);
-    setShowSuccess(false);
     setImageStats(null);
+    setLegoStats(null);
   }
 
   function handleDownload() {
@@ -70,30 +72,21 @@ export default function Home() {
 
   async function handleUpload() {
     if (!image) {
-      setError("Please select an image.");
+      toast.error("Please select an image.");
       return;
     }
-    setError(null);
     setLoading(true);
     setLegoImage(null);
-    setShowSuccess(false);
+    setLegoStats(null);
     try {
-      const formData = new FormData();
-      formData.append("image", image);
-      formData.append("brickSize", brickSize.toString());
-      const res = await fetch("/api/legofy", {
-        method: "POST",
-        body: formData,
-      });
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
-        throw new Error(err.error || "Failed to legofy image");
-      }
-      const blob = await res.blob();
-      setLegoImage(URL.createObjectURL(blob));
-      setShowSuccess(true);
+      // Process image client-side only
+      const result = await legofyImage(image, brickSize, paletteName);
+      setLegoImage(URL.createObjectURL(result.image));
+      setLegoStats(result.stats);
+      toast.success("Successfully legofied your image!");
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : String(err));
+      const errorMessage = err instanceof Error ? err.message : String(err);
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -247,7 +240,7 @@ export default function Home() {
                       )}
                     </div>
                     {legoImage && (
-                      <div className="flex justify-end space-x-2">
+                      <div className="flex justify-between items-center">
                         <Button 
                           className="bg-green-600 hover:bg-green-700 text-white"
                           onClick={handleDownload}
@@ -287,6 +280,25 @@ export default function Home() {
                         </div>
                       </div>
 
+                      <div className="space-y-2">
+                        <label className="font-medium text-gray-700">Brick Palette:</label>
+                        <Select 
+                          value={paletteName}
+                          onValueChange={(value: string) => setPaletteName(value as LegoPaletteName)}
+                        >
+                          <SelectTrigger className="w-full">
+                            <SelectValue placeholder="Select a brick palette" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="solid">Solid Colors</SelectItem>
+                            <SelectItem value="transparent">Transparent Colors</SelectItem>
+                            <SelectItem value="effects">Effects Colors</SelectItem>
+                            <SelectItem value="mono">Monochrome</SelectItem>
+                            <SelectItem value="all">All Available Colors</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+
                       {imageStats && (
                         <div className="grid grid-cols-2 gap-4">
                           <div>
@@ -317,14 +329,63 @@ export default function Home() {
                       >
                         {loading ? (
                           <>
-                            <RefreshCw className="mr-2 h-5 w-5 animate-spin" /> Legofying...
+                            <RefreshCw className="mr-2 h-5 w-5 animate-spin" /> Processing...
                           </>
                         ) : (
-                          'Legofy!'
+                          'Transform with LEGO Bricks'
                         )}
                       </Button>
                     </div>
                   </div>
+
+                  {/* Brick Stats - New Section */}
+                  {legoStats && (
+                    <div className="bg-blue-50 p-6 rounded-lg border-2 border-blue-200 shadow-inner">
+                      <h3 className="font-bold text-xl mb-4 text-gray-800 flex items-center">
+                        <div className="w-4 h-4 bg-blue-500 rounded-sm mr-2"></div>
+                        LEGO Brick Statistics
+                      </h3>
+                      
+                      <div className="space-y-4">
+                        <div className="grid grid-cols-2 gap-2 text-sm">
+                          <div className="text-gray-600">Total Bricks:</div>
+                          <div className="font-medium">{legoStats.totalBricks}</div>
+                        </div>
+                        
+                        <div>
+                          <h4 className="font-medium text-gray-700 mb-2">Color Distribution:</h4>
+                          <div className="space-y-3 max-h-60 overflow-y-auto pr-2">
+                            {legoStats.colors.map((colorStat, index) => (
+                              <div key={index} className="flex items-center gap-2">
+                                <div 
+                                  className="w-6 h-6 rounded-sm flex-shrink-0"
+                                  style={{ 
+                                    backgroundColor: rgbToHex(colorStat.color)
+                                  }}
+                                ></div>
+                                <div className="flex-grow text-sm">
+                                  <div className="flex justify-between">
+                                    <span className="font-medium">
+                                      {rgbToHex(colorStat.color)}
+                                    </span>
+                                    <span className="text-gray-600">
+                                      {colorStat.count} bricks ({colorStat.percentage.toFixed(1)}%)
+                                    </span>
+                                  </div>
+                                  <div className="w-full bg-gray-200 rounded-full h-1 mt-1">
+                                    <div 
+                                      className="bg-blue-600 h-1 rounded-full" 
+                                      style={{ width: `${colorStat.percentage}%` }}
+                                    ></div>
+                                  </div>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </TabsContent>
@@ -361,18 +422,6 @@ export default function Home() {
           </div>
         </div>
       </footer>
-
-      {showSuccess && (
-        <div className="fixed top-0 left-1/2 transform -translate-x-1/2 mt-4 text-center bg-green-100 text-green-800 p-2 px-4 rounded-md border border-green-200 shadow-md animate-in fade-in slide-in-from-top duration-500 z-50">
-          Successfully legofied your image!
-        </div>
-      )}
-
-      {error && (
-        <div className="fixed top-0 left-1/2 transform -translate-x-1/2 mt-4 text-center bg-red-100 text-red-800 p-2 px-4 rounded-md border border-red-200 shadow-md animate-in fade-in slide-in-from-top duration-500 z-50">
-          {error}
-        </div>
-      )}
     </div>
   );
 }
