@@ -3,41 +3,99 @@
 
 export type LegoPaletteName = 'solid' | 'transparent' | 'effects' | 'mono' | 'all';
 
+export const LEGO_COLOR_NAMES: Record<string, string> = {
+  '001': 'White',
+  '194': 'Light Bluish Grey (Medium Stone Grey)',
+  '199': 'Dark Bluish Grey (Dark Stone Grey)',
+  '026': 'Black',
+  '005': 'Tan (Brick Yellow)',
+  '138': 'Dark Tan (Sand Yellow)',
+  '330': 'Olive Green',
+  '151': 'Sand Green',
+  '135': 'Sand Blue',
+  '353': 'Coral (Vibrant Coral)',
+  '021': 'Red (Bright Red)',
+  '154': 'Dark Red (New Dark Red)',
+  '192': 'Reddish Brown',
+  '308': 'Dark Brown',
+  '283': 'Light Nougat',
+  '223': 'Medium Tan (Warm Tan)',
+  '018': 'Nougat',
+  '312': 'Medium Nougat',
+  '106': 'Orange (Bright Orange)',
+  '038': 'Dark Orange',
+  '450': 'Medium Brown',
+  '226': 'Bright Light Yellow (Cool Yellow)',
+  '024': 'Yellow (Bright Yellow)',
+  '191': 'Bright Light Orange (Flame Yellowish Orange)',
+  '368': 'Neon Yellow (Vibrant Yellow)',
+  '326': 'Yellowish Green (Spring Yellowish Green)',
+  '119': 'Lime (Bright Yellowish Green)',
+  '037': 'Bright Green',
+  '028': 'Green (Dark Green)',
+  '141': 'Dark Green (Earth Green)',
+  '323': 'Light Aqua (Aqua)',
+  '107': 'Dark Turquoise (Bright Bluish Green)',
+  '322': 'Medium Azure',
+  '321': 'Dark Azure',
+  '212': 'Bright Light Blue (Light Royal Blue)',
+  '102': 'Medium Blue',
+  '023': 'Blue (Bright Blue)',
+  '140': 'Dark Blue (Earth Blue)',
+  '325': 'Lavender',
+  '324': 'Medium Lavender',
+  '268': 'Dark Purple (Medium Lilac)',
+  '222': 'Bright Pink (Light Purple)',
+  '221': 'Dark Pink (Bright Purple)',
+  '124': 'Magenta (Bright Reddish Violet)',
+};
+
 export const LEGOS: Record<LegoPaletteName, Record<string, [number, number, number]>> = {
   solid: {
-    '024': [0xfe, 0xc4, 0x01],
-    '106': [0xe7, 0x64, 0x19],
-    '021': [0xde, 0x01, 0x0e],
-    '221': [0xde, 0x38, 0x8b],
-    '023': [0x01, 0x58, 0xa8],
-    '028': [0x01, 0x7c, 0x29],
-    '119': [0x95, 0xb9, 0x0c],
-    '192': [0x5c, 0x1d, 0x0d],
-    '018': [0xd6, 0x73, 0x41],
-    '001': [0xf4, 0xf4, 0xf4],
-    '026': [0x02, 0x02, 0x02],
-    '226': [0xff, 0xff, 0x99],
-    '222': [0xee, 0x9d, 0xc3],
-    '212': [0x87, 0xc0, 0xea],
-    '037': [0x01, 0x96, 0x25],
-    '005': [0xd9, 0xbb, 0x7c],
-    '283': [0xf5, 0xc1, 0x89],
-    '208': [0xe4, 0xe4, 0xda],
-    '191': [0xf4, 0x9b, 0x01],
-    '124': [0x9c, 0x01, 0xc6],
-    '102': [0x48, 0x8c, 0xc6],
-    '135': [0x5f, 0x75, 0x8c],
-    '151': [0x60, 0x82, 0x66],
-    '138': [0x8d, 0x75, 0x53],
-    '038': [0xa8, 0x3e, 0x16],
-    '194': [0x9c, 0x92, 0x91],
-    '154': [0x80, 0x09, 0x1c],
-    '268': [0x2d, 0x16, 0x78],
-    '140': [0x01, 0x26, 0x42],
-    '141': [0x01, 0x35, 0x17],
-    '312': [0xaa, 0x7e, 0x56],
-    '199': [0x4d, 0x5e, 0x57],
-    '308': [0x31, 0x10, 0x07],
+    '001': [0xF4, 0xF4, 0xF4], // White
+    '194': [0xA2, 0xAA, 0xAD], // Light Bluish Grey (Medium Stone Grey)
+    '199': [0x63, 0x66, 0x6A], // Dark Bluish Grey (Dark Stone Grey)
+    '026': [0x10, 0x18, 0x20], // Black
+    '005': [0xEF, 0xDB, 0xB2], // Tan (Brick Yellow)
+    '138': [0x9A, 0x7F, 0x62], // Dark Tan (Sand Yellow)
+    '330': [0x8D, 0x8B, 0x53], // Olive Green
+    '151': [0x81, 0x9E, 0x87], // Sand Green
+    '135': [0x68, 0x81, 0x97], // Sand Blue
+    '353': [0xFF, 0x58, 0x69], // Coral (Vibrant Coral)
+    '021': [0xCD, 0x00, 0x1A], // Red (Bright Red)
+    '154': [0x8A, 0x2B, 0x2B], // Dark Red (New Dark Red)
+    '192': [0x7C, 0x3A, 0x2D], // Reddish Brown
+    '308': [0x3F, 0x20, 0x21], // Dark Brown
+    '283': [0xEC, 0xC3, 0xB2], // Light Nougat
+    '223': [0xFF, 0xC2, 0x7B], // Medium Tan (Warm Tan)
+    '018': [0xE5, 0x9E, 0x6D], // Nougat
+    '312': [0xC8, 0x82, 0x42], // Medium Nougat
+    '106': [0xFF, 0x82, 0x00], // Orange (Bright Orange)
+    '038': [0xBE, 0x54, 0x00], // Dark Orange
+    '450': [0x78, 0x51, 0x35], // Medium Brown
+    '226': [0xF9, 0xE2, 0x7D], // Bright Light Yellow (Cool Yellow)
+    '024': [0xFF, 0xCD, 0x00], // Yellow (Bright Yellow)
+    '191': [0xFF, 0xB6, 0x00], // Bright Light Orange (Flame Yellowish Orange)
+    '368': [0xFF, 0xFC, 0x00], // Neon Yellow (Vibrant Yellow)
+    '326': [0xCD, 0xEA, 0x80], // Yellowish Green (Spring Yellowish Green)
+    '119': [0xAE, 0xD0, 0x00], // Lime (Bright Yellowish Green)
+    '037': [0x00, 0xAA, 0x15], // Bright Green
+    '028': [0x00, 0x89, 0x2F], // Green (Dark Green)
+    '141': [0x00, 0x49, 0x1E], // Dark Green (Earth Green)
+    '323': [0xB9, 0xDC, 0xD2], // Light Aqua (Aqua)
+    '107': [0x00, 0x93, 0x9D], // Dark Turquoise (Bright Bluish Green)
+    '322': [0x00, 0xBC, 0xE1], // Medium Azure
+    '321': [0x00, 0x94, 0xD5], // Dark Azure
+    '212': [0x92, 0xC1, 0xE9], // Bright Light Blue (Light Royal Blue)
+    '102': [0x6C, 0xAC, 0xE4], // Medium Blue
+    '023': [0x00, 0x6A, 0xC6], // Blue (Bright Blue)
+    '140': [0x00, 0x30, 0x57], // Dark Blue (Earth Blue)
+    '325': [0xC7, 0xB2, 0xDE], // Lavender
+    '324': [0xA7, 0x7B, 0xCA], // Medium Lavender
+    '268': [0x56, 0x3D, 0x82], // Dark Purple (Medium Lilac)
+    '222': [0xF1, 0xA7, 0xDC], // Bright Pink (Light Purple)
+    '221': [0xE5, 0x6D, 0xB1], // Dark Pink (Bright Purple)
+    '124': [0xA2, 0x00, 0x67], // Magenta (Bright Reddish Violet)
   },
   transparent: {
     '044': [0xf9, 0xef, 0x69],
@@ -113,4 +171,35 @@ export function restrictColorToPalette(
     }
   }
   return closest;
+}
+
+/**
+ * Returns the name of a LEGO color given its color key
+ * @param colorKey The LEGO color key (e.g. '001')
+ * @returns The color name or 'Unknown' if not found
+ */
+export function getLegoColorName(colorKey: string): string {
+  return LEGO_COLOR_NAMES[colorKey] || 'Unknown';
+}
+
+/**
+ * Finds the color key for a given RGB color in the specified palette
+ * @param color RGB color as [r, g, b] array
+ * @param paletteName The palette to search in
+ * @returns The color key or undefined if not found
+ */
+export function findColorKey(
+  color: [number, number, number], 
+  paletteName: LegoPaletteName = 'solid'
+): string | undefined {
+  const palettes = getLegoPalettes();
+  const palette = palettes[paletteName];
+  
+  for (const [key, value] of Object.entries(palette)) {
+    if (value[0] === color[0] && value[1] === color[1] && value[2] === color[2]) {
+      return key;
+    }
+  }
+  
+  return undefined;
 } 

@@ -45,12 +45,16 @@ export async function makeLegoImage(
   maxThumbSize: number = 30,
   paletteName: LegoPaletteName = 'solid'
 ): Promise<LegoResult> {
-  // Create off-screen canvases
-  const createOffscreenCanvas = (width: number, height: number): [HTMLCanvasElement, CanvasRenderingContext2D] => {
+  // Create canvases for processing
+  const createCanvas = (width: number, height: number): [HTMLCanvasElement, CanvasRenderingContext2D] => {
+    // Just use regular canvas for consistent behavior across browsers
     const canvas = document.createElement('canvas');
     canvas.width = width;
     canvas.height = height;
-    const ctx = canvas.getContext('2d')!;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) {
+      throw new Error('Could not get 2D context from canvas');
+    }
     return [canvas, ctx];
   };
 
@@ -73,7 +77,7 @@ export async function makeLegoImage(
   }
   
   // Draw thumbnail
-  const [thumbCanvas, thumbCtx] = createOffscreenCanvas(thumbWidth, thumbHeight);
+  const [thumbCanvas, thumbCtx] = createCanvas(thumbWidth, thumbHeight);
   thumbCtx.drawImage(sourceImg, 0, 0, thumbWidth, thumbHeight);
   
   // Use the thumbnail as the new sourceImg
@@ -89,15 +93,15 @@ export async function makeLegoImage(
   console.log('aspectRatio', aspectRatio);
   console.log('maxThumbSize (brick width)', maxThumbSize);
   
-  const [legoCanvas, legoCtx] = createOffscreenCanvas(baseWidth * brickWidth, baseHeight * brickHeight);
+  const [legoCanvas, legoCtx] = createCanvas(baseWidth * brickWidth, baseHeight * brickHeight);
   legoCtx.fillStyle = 'white';
   legoCtx.fillRect(0, 0, legoCanvas.width, legoCanvas.height);
   
-  const [, srcCtx] = createOffscreenCanvas(baseWidth, baseHeight);
+  const [, srcCtx] = createCanvas(baseWidth, baseHeight);
   srcCtx.drawImage(thumbCanvas, 0, 0, baseWidth, baseHeight);
   const srcData = srcCtx.getImageData(0, 0, baseWidth, baseHeight);
   
-  const [brickCanvas, brickCtx] = createOffscreenCanvas(brickWidth, brickHeight);
+  const [brickCanvas, brickCtx] = createCanvas(brickWidth, brickHeight);
   
   // Track color usage
   const colorCounts: Record<string, number> = {};
