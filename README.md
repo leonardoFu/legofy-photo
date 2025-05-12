@@ -5,7 +5,9 @@
 [![Vercel](https://img.shields.io/badge/Vercel-Deployed-black?logo=vercel)](https://legofy-photo.vercel.app/)
 [![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 
-Transform your photos into LEGO-style brick art using client-side image processing.
+Transform your photos into LEGO-style brick art using client-side image processing, and you can really make it with LEGO bricks 🧱
+
+<img src="./public/example.png" alt="Example" width="300" >
 
 ## Features
 
@@ -13,6 +15,7 @@ Transform your photos into LEGO-style brick art using client-side image processi
 - **Custom Brick Size**: Adjust the brick size to create different levels of detail
 - **Download Your Creation**: Easily download your LEGO-fied images
 - **Mobile-Friendly**: Works on desktop and mobile devices
+
 
 ## How It Works
 
