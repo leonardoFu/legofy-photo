@@ -1,0 +1,23 @@
+{
+  "title": "Photo to LEGO Art!",
+  "subtitle": "Upload an image and create your perfect LEGO brick masterpiece.",
+  "uploadImage": "Upload Image",
+  "chooseDifferentImage": "Choose Different Image",
+  "legoPreviewWillAppear": "Legofied image will appear here",
+  "processing": "Processing...",
+  "download": "Download",
+  "brickStats": "LEGO Brick Stats",
+  "totalBricks": "Total Bricks",
+  "colorDistribution": "Color Distribution",
+  "brickSettings": "Brick Settings",
+  "brickWidth": "Brick Width",
+  "brickHeight": "Brick Height",
+  "lowDetail": "Low Detail",
+  "mediumDetail": "Medium Detail",
+  "highDetail": "High Detail",
+  "transformToLego": "Transform to LEGO",
+  "footerText": "Transform photos into LEGO art",
+  "error": {
+    "selectImage": "Please select an image."
+  }
+} 

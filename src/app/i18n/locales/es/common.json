@@ -1,0 +1,23 @@
+{
+  "title": "¡Foto a Arte LEGO!",
+  "subtitle": "Sube una imagen y crea tu obra maestra de ladrillos LEGO perfecta.",
+  "uploadImage": "Subir Imagen",
+  "chooseDifferentImage": "Elegir Otra Imagen",
+  "legoPreviewWillAppear": "La imagen legorizada aparecerá aquí",
+  "processing": "Procesando...",
+  "download": "Descargar",
+  "brickStats": "Estadísticas de Ladrillos LEGO",
+  "totalBricks": "Total de Ladrillos",
+  "colorDistribution": "Distribución de Colores",
+  "brickSettings": "Configuración de Ladrillos",
+  "brickWidth": "Ancho del Ladrillo",
+  "brickHeight": "Alto del Ladrillo",
+  "lowDetail": "Bajo Detalle",
+  "mediumDetail": "Detalle Medio",
+  "highDetail": "Alto Detalle",
+  "transformToLego": "Transformar a LEGO",
+  "footerText": "Transforma fotos en arte LEGO",
+  "error": {
+    "selectImage": "Por favor selecciona una imagen."
+  }
+} 
