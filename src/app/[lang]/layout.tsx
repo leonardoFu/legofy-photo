@@ -6,19 +6,19 @@ import { useEffect } from 'react';
 import i18next from 'i18next';
 import { use } from 'react';
 
-type Params = {
+type Params = Promise<{
   lang: string;
-};
+}>;
 
 export default function LangLayout({
   children,
   params,
 }: {
   children: React.ReactNode,
-  params: Params | Promise<Params>
+  params: Params
 }) {
   // Unwrap the params object using React.use() if it's a promise
-  const { lang } = params instanceof Promise ? use(params) : params;
+  const { lang } = use(params);
   
   // Initialize i18next on the client side
   useEffect(() => {

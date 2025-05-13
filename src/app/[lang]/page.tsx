@@ -23,9 +23,9 @@ function rgbToHex(rgb: number[] | [number, number, number]): string {
 }
 
 // Define params type
-type Params = {
+type Params = Promise<{
   lang: string;
-};
+}>;
 
 // Translation type
 type TranslationTexts = {
@@ -73,9 +73,9 @@ const defaultText: TranslationTexts = {
   errorSelectImage: "Please select an image."
 };
 
-export default function Home({ params }: { params: Params | Promise<Params> }) {
+export default function Home({ params }: { params: Params }) {
   // Unwrap params if it's a promise
-  const { lang } = params instanceof Promise ? use(params) : params;
+  const { lang } = use(params);
   
   // Client-side state
   const [mounted, setMounted] = useState(false);
