@@ -18,10 +18,13 @@ const initI18next = async (lang: string, ns: string | string[]) => {
   return i18nInstance;
 };
 
-export async function useTranslation(lang: string, ns: string | string[] = 'common', options: TranslationOptions = {}) {
+export async function getTranslations(lang: string, ns: string | string[] = 'common', options: TranslationOptions = {}) {
   const i18nextInstance = await initI18next(lang, ns);
   return {
     t: i18nextInstance.getFixedT(lang, Array.isArray(ns) ? ns[0] : ns, options.keyPrefix),
     i18n: i18nextInstance
   };
-} 
+}
+
+// Keep for backward compatibility
+export const useTranslation = getTranslations; 
