@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
@@ -10,6 +10,8 @@ import { legofyImage, type LegoResult } from "@/lib/legofy";
 import { getLegoColorName } from "@/lib/legoPalette";
 import { toast } from "sonner";
 import { isMobile } from "@/lib/utils";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { useTranslation } from "@/app/i18n/client";
 
 // Helper function to convert RGB to hexadecimal
 function rgbToHex(rgb: number[] | [number, number, number]): string {
@@ -20,7 +22,64 @@ function rgbToHex(rgb: number[] | [number, number, number]): string {
       .slice(1);
 }
 
-export default function Home() {
+// Define params type
+type Params = {
+  lang: string;
+};
+
+// Translation type
+type TranslationTexts = {
+  title: string;
+  subtitle: string;
+  uploadImage: string;
+  chooseDifferentImage: string;
+  legoPreviewWillAppear: string;
+  processing: string;
+  download: string;
+  brickStats: string;
+  totalBricks: string;
+  colorDistribution: string;
+  brickSettings: string;
+  brickWidth: string;
+  brickHeight: string;
+  lowDetail: string;
+  mediumDetail: string;
+  highDetail: string;
+  transformToLego: string;
+  footerText: string;
+  errorSelectImage: string;
+}
+
+// The default text to use for server rendering and before client hydration
+const defaultText: TranslationTexts = {
+  title: "Photo to LEGO Art!",
+  subtitle: "Upload an image and create your perfect LEGO brick masterpiece.",
+  uploadImage: "Upload Image",
+  chooseDifferentImage: "Choose Different Image",
+  legoPreviewWillAppear: "Legofied image will appear here",
+  processing: "Processing...",
+  download: "Download",
+  brickStats: "LEGO Brick Stats",
+  totalBricks: "Total Bricks",
+  colorDistribution: "Color Distribution",
+  brickSettings: "Brick Settings",
+  brickWidth: "Brick Width",
+  brickHeight: "Brick Height",
+  lowDetail: "Low Detail",
+  mediumDetail: "Medium Detail",
+  highDetail: "High Detail",
+  transformToLego: "Transform to LEGO",
+  footerText: "Transform photos into LEGO art",
+  errorSelectImage: "Please select an image."
+};
+
+export default function Home({ params }: { params: Params | Promise<Params> }) {
+  // Unwrap params if it's a promise
+  const { lang } = params instanceof Promise ? use(params) : params;
+  
+  // Client-side state
+  const [mounted, setMounted] = useState(false);
+  const { t } = useTranslation(lang, 'common');
   const [image, setImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [legoImage, setLegoImage] = useState<string | null>(null);
@@ -30,9 +89,34 @@ export default function Home() {
   const [legoStats, setLegoStats] = useState<LegoResult['stats'] | null>(null);
   const [isMobileDevice, setIsMobileDevice] = useState(false);
 
+  // Initialize client-side state after hydration
   useEffect(() => {
+    setMounted(true);
     setIsMobileDevice(isMobile());
   }, []);
+
+  // Get translations
+  const translations: TranslationTexts = mounted ? {
+    title: t('title'),
+    subtitle: t('subtitle'),
+    uploadImage: t('uploadImage'),
+    chooseDifferentImage: t('chooseDifferentImage'),
+    legoPreviewWillAppear: t('legoPreviewWillAppear'),
+    processing: t('processing'),
+    download: t('download'),
+    brickStats: t('brickStats'),
+    totalBricks: t('totalBricks'),
+    colorDistribution: t('colorDistribution'),
+    brickSettings: t('brickSettings'),
+    brickWidth: t('brickWidth'),
+    brickHeight: t('brickHeight'),
+    lowDetail: t('lowDetail'),
+    mediumDetail: t('mediumDetail'),
+    highDetail: t('highDetail'),
+    transformToLego: t('transformToLego'),
+    footerText: t('footerText'),
+    errorSelectImage: t('error.selectImage')
+  } : defaultText;
 
   function handleFileSelect(file: File) {
     setImage(file);
@@ -75,7 +159,7 @@ export default function Home() {
 
   async function handleUpload() {
     if (!image) {
-      toast.error("Please select an image.");
+      toast.error(translations.errorSelectImage);
       return;
     }
     setLoading(true);
@@ -94,6 +178,9 @@ export default function Home() {
       setLoading(false);
     }
   }
+
+  // Use the appropriate text based on mounted state
+  const text = translations;
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-yellow-400 to-yellow-500">
@@ -126,9 +213,9 @@ export default function Home() {
       <main className="container mx-auto px-4 py-6 md:py-8">
         {/* Hero Section */}
         <div className="mb-6 md:mb-12 text-center">
-          <h2 className="text-2xl md:text-4xl font-bold mb-4 text-blue-700">Photo to LEGO Art!</h2>
+          <h2 className="text-2xl md:text-4xl font-bold mb-4 text-blue-700">{text.title}</h2>
           <p className="hidden md:block text-base md:text-xl text-gray-800 max-w-2xl mx-auto">
-            Upload an image and create your perfect LEGO brick masterpiece.
+            {text.subtitle}
           </p>
         </div>
 
@@ -144,7 +231,7 @@ export default function Home() {
                     {!imagePreview ? (
                       <div className="w-full h-full bg-gray-200 flex items-center justify-center">
                         <label htmlFor="file-upload" className="cursor-pointer bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded flex items-center">
-                          <Upload className="mr-2 h-4 w-4" /> Upload Image
+                          <Upload className="mr-2 h-4 w-4" /> {text.uploadImage}
                           <input
                             id="file-upload"
                             type="file"
@@ -172,7 +259,7 @@ export default function Home() {
                         className="w-full bg-blue-600 hover:bg-blue-700 text-white"
                         onClick={handleReset}
                       >
-                        <Upload className="mr-2 h-4 w-4" /> Choose Different Image
+                        <Upload className="mr-2 h-4 w-4" /> {text.chooseDifferentImage}
                       </Button>
                     </div>
                   )}
@@ -197,7 +284,7 @@ export default function Home() {
                           {loading ? (
                             <div className="flex flex-col items-center text-gray-400">
                               <RefreshCw className="h-10 w-10 animate-spin mb-2" />
-                              <p>Processing...</p>
+                              <p>{text.processing}</p>
                             </div>
                           ) : imageStats ? (
                             <div className="flex flex-col items-center justify-center w-full h-full">
@@ -207,7 +294,7 @@ export default function Home() {
                               />
                             </div>
                           ) : (
-                            <p className="text-gray-400">Legofied image will appear here</p>
+                            <p className="text-gray-400">{text.legoPreviewWillAppear}</p>
                           )}
                         </div>
                       )}
@@ -218,28 +305,29 @@ export default function Home() {
                           className="bg-green-600 hover:bg-green-700 text-white"
                           onClick={handleDownload}
                         >
-                          <Download className="mr-2 h-4 w-4" /> Download
+                          <Download className="mr-2 h-4 w-4" /> {text.download}
                         </Button>
                       </div>
                     )}
                   </div>
                 )}
-             {/* Brick Stats - New Section */}
-             {legoStats && (
+                
+                {/* Brick Stats - New Section */}
+                {legoStats && (
                   <div className="bg-blue-50 p-4 md:p-6 rounded-lg border-2 border-blue-200 shadow-inner">
                     <h3 className="font-bold text-lg md:text-xl mb-3 md:mb-4 text-gray-800 flex items-center">
                       <div className="w-3 md:w-4 h-3 md:h-4 bg-blue-500 rounded-sm mr-2"></div>
-                      LEGO Brick Stats
+                      {text.brickStats}
                     </h3>
                     
                     <div className="space-y-4">
                       <div className="grid grid-cols-2 gap-2 text-sm">
-                        <div className="text-gray-600">Total Bricks:</div>
+                        <div className="text-gray-600">{text.totalBricks}:</div>
                         <div className="font-medium">{legoStats.totalBricks}</div>
                       </div>
                       
                       <div>
-                        <h4 className="font-medium text-sm md:text-base text-gray-700 mb-2">Color Distribution:</h4>
+                        <h4 className="font-medium text-sm md:text-base text-gray-700 mb-2">{text.colorDistribution}:</h4>
                         <div className="space-y-2 md:space-y-3 max-h-48 md:max-h-60 overflow-y-auto pr-2">
                           {legoStats.colors.map((colorStat, index) => (
                             <div key={index} className="flex items-center gap-2">
@@ -272,19 +360,20 @@ export default function Home() {
                     </div>
                   </div>
                 )}
+                
                 {/* Controls */}
                 <div className="bg-yellow-100 p-4 md:p-6 rounded-lg border-2 border-yellow-300 shadow-inner">
                   <h3 className="font-bold text-lg md:text-xl mb-3 md:mb-4 text-gray-800 flex items-center">
                     <div className="w-3 md:w-4 h-3 md:h-4 bg-red-500 rounded-sm mr-2"></div>
-                    Brick Settings
+                    {text.brickSettings}
                   </h3>
 
                   <div className="space-y-6">
                     <div className="space-y-2">
                       <div className="flex justify-between">
-                        <label className="font-medium text-sm md:text-base text-gray-700">Brick Width: {brickSize}px</label>
+                        <label className="font-medium text-sm md:text-base text-gray-700">{text.brickWidth}: {brickSize}px</label>
                         <span className="text-xs md:text-sm text-gray-500">
-                          {brickSize < 20 ? "Low Detail" : brickSize > 40 ? "High Detail" : "Medium Detail"}
+                          {brickSize < 20 ? text.lowDetail : brickSize > 40 ? text.highDetail : text.mediumDetail}
                         </span>
                       </div>
                       <div className="flex items-center gap-4">
@@ -304,7 +393,7 @@ export default function Home() {
                     {imageStats && (
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4">
                         <div>
-                          <label className="text-xs md:text-sm font-medium text-gray-700 block mb-1">Brick Width:</label>
+                          <label className="text-xs md:text-sm font-medium text-gray-700 block mb-1">{text.brickWidth}:</label>
                           <Input
                             type="number"
                             value={brickSize}
@@ -313,7 +402,7 @@ export default function Home() {
                           />
                         </div>
                         <div>
-                          <label className="text-xs md:text-sm font-medium text-gray-700 block mb-1">Brick Height:</label>
+                          <label className="text-xs md:text-sm font-medium text-gray-700 block mb-1">{text.brickHeight}:</label>
                           <Input
                             type="number"
                             value={Math.round(brickSize / (imageStats.width / imageStats.height))}
@@ -331,16 +420,14 @@ export default function Home() {
                     >
                       {loading ? (
                         <>
-                          <RefreshCw className="mr-2 h-5 w-5 animate-spin" /> Processing...
+                          <RefreshCw className="mr-2 h-5 w-5 animate-spin" /> {text.processing}
                         </>
                       ) : (
-                        'Transform to LEGO'
+                        text.transformToLego
                       )}
                     </Button>
                   </div>
                 </div>
-
-   
               </div>
             </div>
           </div>
@@ -361,9 +448,12 @@ export default function Home() {
                 </div>
                 <span className="font-bold">Legofy Photo</span>
               </div>
-              <p className="text-xs md:text-sm mt-1 text-blue-200">Transform photos into LEGO art</p>
+              <p className="text-xs md:text-sm mt-1 text-blue-200">
+                {text.footerText}
+              </p>
             </div>
-            <div>
+            <div className="flex flex-col items-end gap-2">
+              {mounted && <LanguageSwitcher lang={lang} />}
               <p className="text-xs md:text-sm text-blue-200">© {new Date().getFullYear()} Legofy Photo</p>
             </div>
           </div>

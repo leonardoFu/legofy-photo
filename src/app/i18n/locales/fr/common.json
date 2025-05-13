@@ -1,0 +1,23 @@
+{
+  "title": "Photo en Art LEGO !",
+  "subtitle": "Téléchargez une image et créez votre chef-d'œuvre de briques LEGO parfait.",
+  "uploadImage": "Télécharger une Image",
+  "chooseDifferentImage": "Choisir une Autre Image",
+  "legoPreviewWillAppear": "L'image en LEGO apparaîtra ici",
+  "processing": "Traitement en cours...",
+  "download": "Télécharger",
+  "brickStats": "Statistiques des Briques LEGO",
+  "totalBricks": "Total des Briques",
+  "colorDistribution": "Distribution des Couleurs",
+  "brickSettings": "Paramètres des Briques",
+  "brickWidth": "Largeur de Brique",
+  "brickHeight": "Hauteur de Brique",
+  "lowDetail": "Détail Faible",
+  "mediumDetail": "Détail Moyen",
+  "highDetail": "Détail Élevé",
+  "transformToLego": "Transformer en LEGO",
+  "footerText": "Transformez des photos en art LEGO",
+  "error": {
+    "selectImage": "Veuillez sélectionner une image."
+  }
+} 

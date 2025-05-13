@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
  
-let locales = ['en', 'nl']
+let locales = ['en', 'de', 'es', 'fr', 'zh', 'jp']
  
 // Get the preferred locale, similar to the above or using a library
 function getLocale() {
-  return 'en-US';
+  return 'en';
 }
  
 export function middleware(request) {

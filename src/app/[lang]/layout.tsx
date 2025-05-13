@@ -1,38 +1,36 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import { Analytics } from "@vercel/analytics/react";
-import { Toaster } from "@/components/ui/sonner";
+'use client';
+
+import { dir } from 'i18next';
 import "./globals.css";
+import { useEffect } from 'react';
+import i18next from 'i18next';
+import { use } from 'react';
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-export const metadata: Metadata = {
-  title: "Legofy Photo",
-  description: "Transform your photos into LEGO-style artwork",
+type Params = {
+  lang: string;
 };
 
-export default function RootLayout({
+export default function LangLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}
-      >
-        {children}
-        <Toaster position="top-center" />
-        <Analytics mode="auto" />
-      </body>
-    </html>
-  );
+  params,
+}: {
+  children: React.ReactNode,
+  params: Params | Promise<Params>
+}) {
+  // Unwrap the params object using React.use() if it's a promise
+  const { lang } = params instanceof Promise ? use(params) : params;
+  
+  // Initialize i18next on the client side
+  useEffect(() => {
+    // Set language attributes on html element
+    document.documentElement.lang = lang;
+    document.documentElement.dir = dir(lang);
+    
+    // Ensure i18next is using the correct language
+    if (i18next.resolvedLanguage !== lang) {
+      i18next.changeLanguage(lang);
+    }
+  }, [lang]);
+
+  return children;
 }

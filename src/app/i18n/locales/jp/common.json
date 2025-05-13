@@ -1,0 +1,23 @@
+{
+  "title": "写真からレゴアートへ！",
+  "subtitle": "画像をアップロードして、あなただけのレゴブロック傑作を作りましょう。",
+  "uploadImage": "画像をアップロード",
+  "chooseDifferentImage": "別の画像を選択",
+  "legoPreviewWillAppear": "レゴ化された画像がここに表示されます",
+  "processing": "処理中...",
+  "download": "ダウンロード",
+  "brickStats": "レゴブロック統計",
+  "totalBricks": "ブロック総数",
+  "colorDistribution": "色分布",
+  "brickSettings": "ブロック設定",
+  "brickWidth": "ブロック幅",
+  "brickHeight": "ブロック高さ",
+  "lowDetail": "低詳細",
+  "mediumDetail": "中詳細",
+  "highDetail": "高詳細",
+  "transformToLego": "レゴに変換",
+  "footerText": "写真をレゴアートに変換",
+  "error": {
+    "selectImage": "画像を選択してください。"
+  }
+} 

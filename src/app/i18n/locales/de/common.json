@@ -1,0 +1,23 @@
+{
+  "title": "Foto zu LEGO-Kunst!",
+  "subtitle": "Lade ein Bild hoch und erstelle dein perfektes LEGO-Steinmeisterwerk.",
+  "uploadImage": "Bild hochladen",
+  "chooseDifferentImage": "Anderes Bild wählen",
+  "legoPreviewWillAppear": "Legofiziertes Bild erscheint hier",
+  "processing": "Verarbeitung...",
+  "download": "Herunterladen",
+  "brickStats": "LEGO-Stein Statistiken",
+  "totalBricks": "Gesamtzahl Steine",
+  "colorDistribution": "Farbverteilung",
+  "brickSettings": "Steineinstellungen",
+  "brickWidth": "Steinbreite",
+  "brickHeight": "Steinhöhe",
+  "lowDetail": "Niedriges Detail",
+  "mediumDetail": "Mittleres Detail",
+  "highDetail": "Hohes Detail",
+  "transformToLego": "In LEGO umwandeln",
+  "footerText": "Verwandle Fotos in LEGO-Kunst",
+  "error": {
+    "selectImage": "Bitte wähle ein Bild aus."
+  }
+} 

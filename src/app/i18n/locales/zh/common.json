@@ -1,0 +1,23 @@
+{
+  "title": "乐高照片",
+  "subtitle": "让你的照片变成可以拼出来的乐高积木!",
+  "uploadImage": "上传图片",
+  "chooseDifferentImage": "选择其他图片",
+  "legoPreviewWillAppear": "乐高化图像将显示在这里",
+  "processing": "处理中...",
+  "download": "下载",
+  "brickStats": "乐高积木统计",
+  "totalBricks": "积木总数",
+  "colorDistribution": "颜色分布",
+  "brickSettings": "积木设置",
+  "brickWidth": "积木宽度",
+  "brickHeight": "积木高度",
+  "lowDetail": "低细节",
+  "mediumDetail": "中等细节",
+  "highDetail": "高细节",
+  "transformToLego": "转换为乐高",
+  "footerText": "将照片转换为乐高积木",
+  "error": {
+    "selectImage": "请选择一张图片。"
+  }
+} 
