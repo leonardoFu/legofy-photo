@@ -4,10 +4,21 @@ import { usePathname, useRouter } from 'next/navigation';
 import { languages } from '@/app/i18n/settings';
 import { Languages } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { useEffect, useState } from 'react';
 
 export function LanguageSwitcher({ lang }: { lang: string }) {
   const pathname = usePathname();
   const router = useRouter();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Client-side only to avoid hydration errors
+  if (!mounted) {
+    return null;
+  }
 
   const languageNames = {
     en: 'English',

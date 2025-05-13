@@ -1,35 +1,37 @@
-import Container from './ui/Container';
+"use client";
 
-export default function Footer() {
+import { LanguageSwitcher } from '@/components/LanguageSwitcher';
+
+interface FooterProps {
+  lang: string;
+  footerText: string;
+}
+
+export function Footer({ lang, footerText }: FooterProps) {
   return (
-    <footer className="border-t border-gray-200 bg-white">
-      <Container>
+    <footer className="bg-blue-700 text-white py-6 mt-12">
+      <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="mb-4 md:mb-0">
-            <p className="text-sm text-gray-600">
-              © {new Date().getFullYear()} Lego Pic. All rights reserved.
+            <div className="flex items-center gap-2">
+              <div className="grid grid-cols-2 gap-0.5">
+                <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
+                <div className="w-3 h-3 rounded-full bg-red-400"></div>
+                <div className="w-3 h-3 rounded-full bg-green-400"></div>
+                <div className="w-3 h-3 rounded-full bg-blue-400"></div>
+              </div>
+              <span className="font-bold">Legofy Photo</span>
+            </div>
+            <p className="text-xs md:text-sm mt-1 text-blue-200">
+              {footerText}
             </p>
           </div>
-          <div className="flex space-x-4">
-            <a 
-              href="https://github.com" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-gray-500 hover:text-gray-700 transition-colors"
-            >
-              GitHub
-            </a>
-            <a 
-              href="https://twitter.com" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-gray-500 hover:text-gray-700 transition-colors"
-            >
-              Twitter
-            </a>
+          <div className="flex flex-col items-end gap-2">
+            <LanguageSwitcher lang={lang} />
+            <p className="text-xs md:text-sm text-blue-200">© {new Date().getFullYear()} Legofy Photo</p>
           </div>
         </div>
-      </Container>
+      </div>
     </footer>
   );
 } 
