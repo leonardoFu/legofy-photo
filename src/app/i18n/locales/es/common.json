@@ -14,7 +14,7 @@
   "brickHeight": "Alto del Ladrillo",
   "lowDetail": "Bajo Detalle",
   "mediumDetail": "Detalle Medio",
-  "highDetail": "Alto Detalle",
+  "moreDetail": "Más Detalle",
   "transformToLego": "Transformar a LEGO",
   "footerText": "Transforma fotos en arte LEGO",
   "error": {
