@@ -35,7 +35,7 @@ interface LegoImageConverterProps {
     brickHeight: string;
     lowDetail: string;
     mediumDetail: string;
-    highDetail: string;
+    moreDetail: string;
     transformToLego: string;
     errorSelectImage: string;
   }
@@ -48,7 +48,7 @@ export function LegoImageConverter({ translations }: LegoImageConverterProps) {
   const [legoImage, setLegoImage] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [imageStats, setImageStats] = useState<{ width: number; height: number } | null>(null);
-  const [brickSize, setBrickSize] = useState(30); // Default value from the API
+  const [brickSize, setBrickSize] = useState(50); // Default value from the API
   const [legoStats, setLegoStats] = useState<LegoResult['stats'] | null>(null);
   const [isMobileDevice, setIsMobileDevice] = useState(false);
 
@@ -268,7 +268,7 @@ export function LegoImageConverter({ translations }: LegoImageConverterProps) {
               <div className="flex justify-between">
                 <label className="font-medium text-sm md:text-base text-gray-700">{translations.brickWidth}: {brickSize}px</label>
                 <span className="text-xs md:text-sm text-gray-500">
-                  {brickSize < 20 ? translations.lowDetail : brickSize > 40 ? translations.highDetail : translations.mediumDetail}
+                  {brickSize < 30 ? translations.lowDetail : brickSize > 70 ? translations.moreDetail : translations.mediumDetail}
                 </span>
               </div>
               <div className="flex items-center gap-4">
@@ -276,7 +276,7 @@ export function LegoImageConverter({ translations }: LegoImageConverterProps) {
                 <Slider
                   value={[brickSize]}
                   min={10}
-                  max={50}
+                  max={100}
                   step={1}
                   onValueChange={(values) => setBrickSize(values[0])}
                   className="flex-1"

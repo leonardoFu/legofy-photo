@@ -31,7 +31,7 @@ export default async function Home({ params }: PageParams) {
     brickHeight: t('brickHeight'),
     lowDetail: t('lowDetail'),
     mediumDetail: t('mediumDetail'),
-    highDetail: t('highDetail'),
+    moreDetail: t('moreDetail'),
     transformToLego: t('transformToLego'),
     footerText: t('footerText'),
     errorSelectImage: t('error.selectImage')
