@@ -4,8 +4,9 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Input } from "@/components/ui/input";
-import { Download, ZoomIn, ZoomOut, Upload, RefreshCw } from "lucide-react";
+import { Download, ZoomIn, ZoomOut, RefreshCw } from "lucide-react";
 import { LegoBrickPreview } from "@/components/LegoBrickPreview";
+import ImageUploader from "@/components/ImageUploader";
 import { legofyImage, type LegoResult } from "@/lib/legofy";
 import { getLegoColorName } from "@/lib/legoPalette";
 import { toast } from "sonner";
@@ -76,6 +77,8 @@ export function LegoImageConverter({ translations }: LegoImageConverterProps) {
     reader.readAsDataURL(file);
   }
 
+
+
   function handleReset() {
     setImage(null);
     setImagePreview(null);
@@ -118,51 +121,27 @@ export function LegoImageConverter({ translations }: LegoImageConverterProps) {
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
-      {/* Left Column - Original Image */}
-      <div className="space-y-3 md:space-y-4">
-        <div className="bg-gray-100 p-4 rounded-lg border-2 border-dashed border-gray-300 flex flex-col items-center justify-center">
-          <div className="relative w-full aspect-square mb-4 overflow-hidden rounded-lg shadow-md">
-            {!imagePreview ? (
-              <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-                <label htmlFor="file-upload" className="cursor-pointer bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded flex items-center">
-                  <Upload className="mr-2 h-4 w-4" /> {translations.uploadImage}
-                  <input
-                    id="file-upload"
-                    type="file"
-                    className="hidden"
-                    accept="image/*"
-                    onChange={(e) => {
-                      const file = e.target.files?.[0];
-                      if (file) handleFileSelect(file);
-                    }}
-                  />
-                </label>
-              </div>
-            ) : (
-              <Image
-                src={imagePreview}
-                alt="Original image"
-                fill
-                className="object-contain"
-              />
-            )}
+    <div className="flex flex-col md:flex-row gap-4 md:gap-8 md:items-stretch">
+      {/* Left Column - Image Upload */}
+      <div className="flex-1 space-y-3 md:space-y-4">
+        <div className="bg-gray-100 p-4 rounded-lg border-2 border-gray-300">
+          <div className="w-full aspect-square">
+            <ImageUploader
+              onFileSelect={handleFileSelect}
+              onFileRemove={handleReset}
+              currentFile={image}
+              currentPreview={imagePreview}
+              maxFiles={1}
+              title={translations.uploadImage}
+              description={translations.legoPreviewWillAppear}
+              className="max-w-none p-0 h-full"
+            />
           </div>
-          {imagePreview && (
-            <div className="w-full">
-              <Button 
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white"
-                onClick={handleReset}
-              >
-                <Upload className="mr-2 h-4 w-4" /> {translations.chooseDifferentImage}
-              </Button>
-            </div>
-          )}
         </div>
       </div>
 
       {/* Right Column - Legofied Image & Controls */}
-      <div className="space-y-4">
+      <div className="flex-1 space-y-4">
         {/* Only show image block if not mobile, or if mobile and legoImage exists */}
         {( !isMobileDevice || (isMobileDevice && legoImage) ) && (
           <div className="bg-gray-100 p-4 rounded-lg border-2 border-gray-300 flex flex-col">
